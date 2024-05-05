@@ -203,7 +203,7 @@
                     <div class="modal-dialog modal-sm">
 
                         <!-- Modal content-->
-                        <div class="modal-content">
+                        <!-- <div class="modal-content">
                             <img src="http://image.ibb.co/gpRY7v/wish_background.jpg" />
 
                             <div class="modal-header">
@@ -221,7 +221,7 @@
                                 <button type="button" class="btn btn-default" data-dismiss="modal" style="position:relative; background: none">Close</button>
                             </div>
 
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
@@ -263,6 +263,10 @@
                 <input type="hidden" id="name" name="name" value="{{question.name}}"/>
             {% endfor %}
 
+            {% for id in ids %}
+                <input type="hidden" id="question_id" name="question_id" value="{{id.id}}"/>
+            {% endfor %}
+
             <div class="col-lg-1"></div>
 
 
@@ -279,7 +283,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-            console.log('heelo world');
             //shuffle function for fake random
             function shuffle(array) {
                 var currentIndex = array.length;
@@ -311,8 +314,13 @@
             //see the wish detials
             //note:  get data from SharePoint, modfy here
             //push data in modal
+
+            async function getQuestion(question_id) {
+                const response = await fetch("http://127.0.0.1:8000/questions/" + question_id);
+                const question = await response.json();
+            }
+
             function lookWishDetails() {
-    
                 //get the content of the leaf been clicked
                 var to_modal_content = $(this).find(".wish_on_leaf").text();
                 var to_modal_name = $(this).find(".name_on_leaf").text();
@@ -324,6 +332,7 @@
                 $("#modal_time").text(to_modal_time);
                 //show the modal
                 $("#myModal").modal();
+                getQuestion(to_modal_content);
             };
     
             //wish_data is a array of wish content
@@ -337,20 +346,17 @@
     
             //add the data from sharepoint
             from_sharepoint();
-    
-    
+
             //creat a leaf when click make a wish button
             $("#make_wish").click(function() {
-    
                 //check if has content, make sure no empty
                 if ($("#wish_content").val() && $("#wisher_name").val()) {
                     WishText = $("#wish_content").val();
-                    console.log(WishText)
                     NameText = $("#wisher_name").val();
                     TimeText = new Date().toLocaleDateString('en-US');
                     prepare_data();
                     CreatALeaf(wish_data);
-    
+                    
     
                     // after creat the leaf, reset the textarea for next wish
                     $("#wish_content").val('');
@@ -363,24 +369,26 @@
                     new Audio("https://d1490khl9dq1ow.cloudfront.net/sfx/mp3preview/magic-spells-with-harp-and-chimes_GJiMErE_.mp3").play();
     
                 } else {
+                    
                     // if empty, alert the user
                     alert("Please enter your wishes and name in the typearea.");
                 }
             });
-
+            
             // get data from sharepoint
             function from_sharepoint() {
                 var name = $('input[name="name"]').map(function () {
                     return this.value; 
                 }).get();
-                console.log('name');
-                console.log(name)
+                var question_id = $('input[name="question_id"]').map(function () {
+                    return this.value; 
+                }).get();
                 for (let i = 0; i < name.length; i++) {
-                    WishText = "";
-                    console.log(WishText)
+                    WishText = question_id[i];
                     NameText = name[i];
                     TimeText = '';
                     prepare_data();
+                    wish_data.question_id = question_id[i];
                     CreatALeaf(wish_data);
                 }
             }
@@ -394,11 +402,6 @@
                 var FakeRandomLeft = [6, 76, 37, 44, 32, 79, 55, 89, 54, -8, 29, 2, 48, 17, 86, 25, 56, 66, 6, 53, 57, 57, 35, 92];
                 var FakeRandomRotate = [131, 281, 48, 169, 92, 209, 195, 265, 237, 111, 138, 172, 149, 187, 312, 71, 220, 218, 91, 126, 289, 220, 156, 251];
     
-                //        console.log("n=" + n)
-                //        console.log("arr.n=" + arr[n])
-                //        console.log(FakeRandomTop[arr[n]])
-                //        console.log(FakeRandomLeft[arr[n]])
-                //        console.log(FakeRandomRotate[arr[n]])
     
                 wish_data = {
                     wish: WishText,
@@ -427,7 +430,7 @@
     
             //creat a new leaf fucntion
             function CreatALeaf(data) {
-                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="wish_' + data.wish_num + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + data.rotate + 'deg)"><p class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
+                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="' + data.question_id + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + data.rotate + 'deg)"><p class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
                 $(".leaf_test").append(txt1);
             }
     
