@@ -10,6 +10,8 @@ class Question(models.Model):
     update_date = models.DateTimeField(auto_now=True)
 
 class QuestionQueue(models.Model):
+    question_id = models.IntegerField(null=True)
+    question_name = models.CharField(null=True)
     command = models.CharField()
     url = models.CharField()
     data = models.TextField()
