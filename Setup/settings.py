@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Setup.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'QuestionTree',
+        'NAME': 'boo',
         'USER': 'hieunqdev',
         'PASSWORD': 'GwangHyo2k',
         'HOST': '127.0.0.1',
