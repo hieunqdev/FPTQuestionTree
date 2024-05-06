@@ -449,7 +449,7 @@
     
             //creat a new leaf fucntion
             function CreatALeaf(data) {
-                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="' + data.question_id + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + data.rotate + 'deg)"><p class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
+                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="' + data.question_id + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + data.rotate + 'deg)"><p hidden class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
                 $(".leaf_test").append(txt1);
             }
     
