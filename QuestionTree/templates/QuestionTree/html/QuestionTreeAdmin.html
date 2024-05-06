@@ -218,7 +218,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal" style="position:relative; background: none">Done</button>
+                                <button type="button" onclick="myFunction()" class="btn btn-default" data-dismiss="modal" style="position:relative; background: none">Done</button>
                             </div>
 
                         </div>
@@ -256,6 +256,9 @@
             {% for question in questions %}
                 <input type="hidden" id="name" name="name" value="{{question.name}}"/>
             {% endfor %}
+            {% for id in ids %}
+                <input type="hidden" id="question_id" name="question_id" value="{{id.id}}"/>
+            {% endfor %}
 
             <div class="col-lg-1"></div>
 
@@ -272,6 +275,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
+        async function getQuestion(question_id) {
+            const response = await fetch("http://127.0.0.1:8000/question/" + question_id);
+            const question = await response.json();
+        }
+
+        function myFunction() {
+            var question_id = document.getElementById('modal_content').innerText.replace(/[^0-9]/g , '');
+            getQuestion(question_id);
+            location.reload();
+        }
+
         $(document).ready(function() {
 
             //shuffle function for fake random
@@ -309,7 +323,7 @@
             function lookWishDetails() {
                 
                 //get the content of the leaf been clicked
-                var to_modal_content = 8;
+                var to_modal_content = $(this).find(".wish_on_leaf").text();
                 var to_modal_name = $(this).find(".name_on_leaf").text();
                 var to_modal_time = $(this).find(".time_tag").text();
     
@@ -326,9 +340,11 @@
                 const question = await response.json();
                 if (question.status == 200) {
                     //get the content of the leaf been clicked
+                    var to_modal_content = "Quả táo số: " + question.question_id;
                     var to_modal_name = question.question_name;
         
                     //push data to modal
+                    $("#modal_content").text(to_modal_content);
                     $("#modal_name").text(to_modal_name);
                     //show the modal
                     $("#myModal").modal();
@@ -383,9 +399,12 @@
                 var name = $('input[name="name"]').map(function () {
                     return this.value; 
                 }).get();
+                var question_id = $('input[name="question_id"]').map(function () {
+                    return this.value; 
+                }).get();
 
                 for (let i = 0; i < name.length; i++) {
-                    WishText = "";
+                    WishText = question_id[i];
                     NameText = name[i];
                     TimeText = '';
                     prepare_data();
@@ -430,7 +449,7 @@
     
             //creat a new leaf fucntion
             function CreatALeaf(data) {
-                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="wish_' + data.wish_num + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + data.rotate + 'deg)"><p class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
+                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="' + data.question_id + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + data.rotate + 'deg)"><p class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
                 $(".leaf_test").append(txt1);
             }
     

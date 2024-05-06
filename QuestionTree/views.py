@@ -30,6 +30,7 @@ class QuestionAdminView(View):
         questions = Question.objects.filter(activate=True)
         context = {
             'questions': questions.values('name'),
+            'ids': questions.values('id'),
             'username': 'admin'
         }
         return render(request, 'QuestionTree\html\QuestionTreeAdmin.html', context)
@@ -70,7 +71,15 @@ class QuestionDetailAdminApiView(View):
             return JsonResponse(context)
         return JsonResponse(status=100, data={'status':'false','message':''})
     
-    
+class DeleteQuestionDetailAdminApiView(View):
+    def get(self, request, question_id):
+        QuestionQueue.objects.all().delete()
+        Question.objects.filter(id=question_id).update(activate=False)
+        context = {
+            'status': 200,
+            'question_id': question_id,
+        }
+        return JsonResponse(context)
     
 
     
