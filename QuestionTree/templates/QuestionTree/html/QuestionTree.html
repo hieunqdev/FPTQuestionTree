@@ -265,6 +265,10 @@
                 <input type="hidden" id="name" name="name" value="{{question.name}}"/>
             {% endfor %}
 
+            {% for result in results %}
+                <input type="hidden" id="result" name="result" value="{{question.result}}"/>
+            {% endfor %}
+
             {% for id in ids %}
                 <input type="hidden" id="question_id" name="question_id" value="{{id.id}}"/>
             {% endfor %}
@@ -317,9 +321,11 @@
             //note:  get data from SharePoint, modfy here
             //push data in modal
 
-            async function getQuestion(question_id) {
-                const response = await fetch("http://127.0.0.1:8000/questions/" + question_id);
+            async function getQuestion(question_id, username) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const response = await fetch("http://127.0.0.1:8000/questions/" + question_id +"/"+urlParams.get('username'));
                 const question = await response.json();
+                console.log(question)
             }
 
             function lookWishDetails() {

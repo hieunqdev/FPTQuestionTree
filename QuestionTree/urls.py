@@ -1,10 +1,13 @@
 from django.urls import path
-from .views import QuestionPartnerView, QuestionAdminView, QuestionDetailApiView, QuestionDetailAdminApiView, DeleteQuestionDetailAdminApiView
+from . import views
 
 urlpatterns = [
-    path('', QuestionPartnerView.as_view()),
-    path('superuser', QuestionAdminView.as_view()),
-    path('questions/<int:id>', QuestionDetailApiView.as_view()),
-    path('question', QuestionDetailAdminApiView.as_view()),
-    path('question/<int:question_id>', DeleteQuestionDetailAdminApiView.as_view())
+    path('', views.QuestionPartnerView.as_view()),
+    path('superuser', views.QuestionAdminView.as_view()),
+    path('questions/<int:id>/<str:username>', views.QuestionDetailApiView.as_view()),
+    path('question', views.QuestionDetailAdminApiView.as_view()),
+    path('question/<int:question_id>', views.DeleteQuestionDetailAdminApiView.as_view()),
+    path('result/<int:question_id>', views.GetKetQuaView.as_view()),
+
+    path('all-question/<str:username>', views.AllQuestionView.as_view()),
 ]

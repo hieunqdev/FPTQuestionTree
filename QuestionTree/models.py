@@ -5,6 +5,7 @@ from django.db import models
 # Create your models here.
 class Question(models.Model):
     name = models.TextField()
+    result = models.TextField()
     activate = models.BooleanField(default=True)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
@@ -17,6 +18,7 @@ class QuestionQueue(models.Model):
     data = models.TextField()
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
+    username = models.CharField()
 
     # def job():
     #     print("I'm working...")
