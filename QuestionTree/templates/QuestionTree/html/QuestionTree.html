@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <meta http-equiv="refresh" content="30"> -->
+    <meta http-equiv="refresh" content="30">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     
 </head>
@@ -232,10 +232,11 @@
 
             </div>
             <!--end of tree frame-->
-
-            <label for="fname">User name:</label><br>
-            <input type="text" id="username" name="username" value=""><br>
-            <button onclick="getAllQuestion()">Xác nhận</button>
+            <form action="" method="get">
+                <label for="fname">User name:</label><br>
+                <input type="text" id="username" name="username" value=""><br>
+                <button onclick="getCreatePartner()">Xác nhận</button>
+            </form>
             <div id="all-question">
 
             </div>
@@ -258,10 +259,10 @@
             <!--empty div for position arrangement-->
             
             <!-- <input type="text" id="name" name="name" value=""/> -->
-
+<!-- 
             {% for result in results %}
                 <input type="hidden" id="result" name="result" value="{{question.result}}"/>
-            {% endfor %}
+            {% endfor %} -->
 
             <!-- {% for id in ids %}
                 <input type="hidden" id="question_id" name="question_id" value="{{id.id}}"/>
@@ -282,32 +283,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
-        async function getAllQuestionApi(username) {
-            const response = await fetch("http://127.0.0.1:8000/all-question/" + username);
-            const all_question = await response.json()
-            for (var i=0; i<all_question['all-question'].length; i++) {
-                var x = document.createElement("INPUT");
-                x.setAttribute("type", "text");
-                x.setAttribute("name", "name");
-                x.setAttribute("value", all_question['all-question'][i].question_name);
-                //document.body.appendChild(x);
-                let inputQuestion = document.querySelector('#all-question');
-                inputQuestion.appendChild(x)
+        // ghi username, an submit gui di de luu username vao db
+        async function getCreatePartner() {
+            var username = $('input[id="username"]').map(function () {
+                    return this.value; 
+                }).get();
+            const response = await fetch("http://127.0.0.1:8000/create-partner/" + username);
+            const result = await response.json();
+        }
 
-                var y = document.createElement("INPUT");
-                y.setAttribute("type", "text");
-                y.setAttribute("name", "question_id");
-                y.setAttribute("value", all_question['all-question'][i].question_id);
-                //document.body.appendChild(x);
-                inputQuestion.appendChild(y)
-            }            
-        }
-        function getAllQuestion() {
-            var username = $('input[name="username"]').map(function () {
-                return this.value; 
-            }).get();
-            getAllQuestionApi(username);
-        }
+        
         $(document).ready(function() {
             //shuffle function for fake random
             function shuffle(array) {
@@ -341,11 +326,11 @@
             //note:  get data from SharePoint, modfy here
             //push data in modal
 
+            // an vao tao, call api de luu vao question queue
             async function getQuestion(question_id, username) {
                 const urlParams = new URLSearchParams(window.location.search);
                 const response = await fetch("http://127.0.0.1:8000/questions/" + question_id +"/"+urlParams.get('username'));
                 const question = await response.json();
-                console.log(question)
             }
 
             function lookWishDetails() {
@@ -402,16 +387,43 @@
                     alert("Please enter your wishes and name in the typearea.");
                 }
             });
+
+            // lay tat ca cau hoi, id, cau tra loi cua cau hoi de tao input, sau do hien tao
+            async function getAllQuestionApi() {
+                const response = await fetch("http://127.0.0.1:8000/all-question");
+                const all_question = await response.json()
+                for (var i=0; i<all_question['all-question'].length; i++) {
+                    var x = document.createElement("INPUT");
+                    x.setAttribute("type", "hidden");
+                    x.setAttribute("name", "name");
+                    x.setAttribute("value", all_question['all-question'][i].question_name);
+                    let inputQuestion = document.querySelector('#all-question');
+                    inputQuestion.appendChild(x)
+
+                    var y = document.createElement("INPUT");
+                    y.setAttribute("type", "hidden");
+                    y.setAttribute("name", "question_id");
+                    y.setAttribute("value", all_question['all-question'][i].question_id);
+                    inputQuestion.appendChild(y)
+                }            
+            }
+            async function getAllQuestion() {
+                var username = $('input[name="username"]').map(function () {
+                    return this.value; 
+                }).get();
+                await getAllQuestionApi();
+            }
             
             // get data from sharepoint
-            function from_sharepoint() {
+            async function from_sharepoint() {
+                await getAllQuestion();
                 var name = $('input[name="name"]').map(function () {
                     return this.value; 
                 }).get();
                 console.log(name)
                 var question_id = $('input[name="question_id"]').map(function () {
                     return this.value; 
-                }).get();
+                }).get();                
                 for (let i = 0; i < name.length; i++) {
                     WishText = question_id[i];
                     NameText = name[i];

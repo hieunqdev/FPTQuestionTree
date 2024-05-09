@@ -27,25 +27,25 @@ class QuestionPartnerView(View):
     
 class QuestionAdminView(View):
     def get(self, request):
-        if not request.user.is_superuser:
-            return redirect('admin:index')
-        questions = Question.objects.filter(activate=True)
-        question_queue = QuestionQueue.objects.all().values()
-        context = {
-            'questions': questions.values('name'),
-            'ids': questions.values('id'),
-            'username': 'admin',
-            'partners': []
-        }
-        stt = 0
-        for partner in question_queue:
-            stt += 1
-            if stt <= 11:
-                context['partners'].append({
-                    'stt': stt,
-                    'partner_name': partner['username'],
-                })
-        return render(request, 'QuestionTree\html\QuestionTreeAdmin.html', context)
+        # if not request.user.is_superuser:
+        #     return redirect('admin:index')
+        # questions = Question.objects.filter(activate=True)
+        # question_queue = QuestionQueue.objects.all().values()
+        # context = {
+        #     'questions': questions.values('name'),
+        #     'ids': questions.values('id'),
+        #     'username': 'admin',
+        #     'partners': []
+        # }
+        # stt = 0
+        # for partner in question_queue:
+        #     stt += 1
+        #     if stt <= 11:
+        #         context['partners'].append({
+        #             'stt': stt,
+        #             'partner_name': partner['username'],
+        #         })
+        return render(request, 'QuestionTree\html\QuestionTreeAdmin.html')
     
 class QuestionDetailApiView(View):
     def get(self, request, id, username):
@@ -57,15 +57,17 @@ class QuestionDetailApiView(View):
         if len(question) > 0:
             context.get('question').append(question[0])     
         # check_question_queue = QuestionQueue.objects.all()
-        question_queue = QuestionQueue.objects.create(
-            question_id = id,
-            question_name = Question.objects.filter(id=id).values('name'),
-            command = "Choice question",
-            url = request.get_full_path(),
-            data = context,
-            username = username
-        )
-        question_queue.save()
+        check_question_queue = QuestionQueue.objects.filter(username=username)
+        if len(check_question_queue) == 0:
+            question_queue = QuestionQueue.objects.create(
+                question_id = id,
+                question_name = Question.objects.filter(id=id).values('name'),
+                command = "chua hien thi",
+                url = request.get_full_path(),
+                data = context,
+                username = username
+            )
+            question_queue.save()
         context['status'] = 200
         return JsonResponse(context)
     
@@ -101,13 +103,13 @@ class GetKetQuaView(View):
         return JsonResponse(context)
     
 class AllQuestionView(View):
-    def get(self, request, username):
+    def get(self, request):
         all_question = Question.objects.filter(activate=True).values()
-        partner = Partner.objects.create(name=username)
-        partner.save()
+        # partner = Partner.objects.create(name=username)
+        # partner.save()
         context = {
             'status': 200,
-            'username': username,
+            # 'username': username,
             'all-question': []
         }
         for question in all_question:
@@ -116,4 +118,33 @@ class AllQuestionView(View):
                 'question_name': question.get('name'),
                 'question_result': question.get('result'), 
             })
+        return JsonResponse(context)
+    
+class CreatePartnerView(View):
+    def get(self, request, username):
+        partner = Partner.objects.create(name=username)
+        partner.save()
+        context = {
+            'status': 200
+        }
+        return JsonResponse(context)
+    
+class QuestionAdminAPIView(View):
+    def get(self, request):
+        # if not request.user.is_superuser:
+        #     return redirect('admin:index')
+        # questions = Question.objects.filter(activate=True).values()
+        question_queue = QuestionQueue.objects.filter(command='chua hien thi').values()
+        context = {
+            'partners': []
+        }
+        stt = 0
+        for partner in question_queue:
+            stt += 1
+            if stt <= 11:
+                context['partners'].append({
+                    'stt': stt,
+                    'partner_name': partner['username'],
+                })
+                question_queue.update(command='da hien thi')
         return JsonResponse(context)

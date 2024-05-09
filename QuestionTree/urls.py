@@ -9,5 +9,7 @@ urlpatterns = [
     path('question/<int:question_id>', views.DeleteQuestionDetailAdminApiView.as_view()),
     path('result/<int:question_id>', views.GetKetQuaView.as_view()),
 
-    path('all-question/<str:username>', views.AllQuestionView.as_view()),
+    path('all-question', views.AllQuestionView.as_view()),
+    path('create-partner/<str:username>', views.CreatePartnerView.as_view()),
+    path('superuser/request', views.QuestionAdminAPIView.as_view())
 ]

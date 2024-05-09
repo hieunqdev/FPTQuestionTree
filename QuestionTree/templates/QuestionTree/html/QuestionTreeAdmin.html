@@ -241,23 +241,29 @@
                                 <button type="button" onclick="myFunction()" class="btn btn-default" data-dismiss="modal" style="position:relative; background: none">Hoàn thành</button>
                             </div>
 
+                            <div id="all-question">
+
+                            </div>
+
                             <div class="modal-footer">
-                                {% if user.is_superuser %}
-                
-                                    <h2>{{partner.username}}</h2>
-                                    <table>
+                                <table class="some-tab">
+                                    <tr>
+                                        <th>Số thứ tự</th>
+                                        <th>Người tham gia</th>
+                                    </tr>
+                                </table>
+                                <!-- <table>
                                     <tr>
                                         <th>Stt</th>
                                         <th>Username</th>
                                     </tr>
                                     {% for partner in partners %}
-                                        <tr>
-                                            <td>{{partner.stt}}</td>
-                                            <td>{{partner.partner_name}}</td>
-                                        </tr>
+                                    <tr>
+                                        <td id="Stt">Admin</td>
+                                        <td id="Username">STH STH STH!</td>
+                                    </tr>
                                     {% endfor %}
-                                    </table>
-                                {% endif %}
+                                </table> -->
                             </div>
 
                         </div>
@@ -290,12 +296,12 @@
 
             <!--empty div for position arrangement-->
             
-            {% for question in questions %}
+            <!-- {% for question in questions %}
                 <input type="hidden" id="name" name="name" value="{{question.name}}"/>
             {% endfor %}
             {% for id in ids %}
                 <input type="hidden" id="question_id" name="question_id" value="{{id.id}}"/>
-            {% endfor %}
+            {% endfor %} -->
 
             <div class="col-lg-1"></div>
 
@@ -312,11 +318,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
+        // lay ket qua dap an
         async function getKetQua(question_id) {
             const response = await fetch("http://127.0.0.1:8000/result/" + question_id);
             const question_result = await response.json();
             document.getElementById('question-result').innerHTML = question_result.result;
-            console.log(question_result.result)
         }
 
         function showKetQua() {
@@ -387,6 +393,29 @@
             async function getQuestion() {
                 const response = await fetch("http://127.0.0.1:8000/question");
                 const question = await response.json();
+                const partner_response = await fetch("http://127.0.0.1:8000/superuser/request");
+                const partner = await partner_response.json();
+                var something = document.getElementsByTagName('table');
+                var tableca = something[0];
+                for (var i=0; i<partner.partners.length; i++) {
+                    var tr = document.createElement('tr');
+
+                    var td1 = document.createElement('td');
+                    var td2 = document.createElement('td');
+
+                    var text1 = document.createTextNode(partner.partners[i].stt);
+                    var text2 = document.createTextNode(partner.partners[i].partner_name);
+
+                    td1.appendChild(text1);
+                    td2.appendChild(text2);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+
+                    tableca.appendChild(tr);
+                }
+                let inputQuestion = document.querySelector('.modal-footer');
+                inputQuestion.appendChild(tableca)
+
                 if (question.status == 200) {
                     //get the content of the leaf been clicked
                     var to_modal_content = "Quả táo số: " + question.question_id;
@@ -399,6 +428,8 @@
                     $("#myModal").modal();
                 }
             }
+
+            // 10s hien lai so cau hoi con lai
             window.onload = getQuestion;
             const intervalID = setInterval(getQuestion, 10000);
     
@@ -443,8 +474,36 @@
                 }
             });
 
+            // lay tat ca cau hoi, id, cau tra loi cua cau hoi de tao input, sau do hien tao
+            async function getAllQuestionApi() {
+                const response = await fetch("http://127.0.0.1:8000/all-question");
+                const all_question = await response.json()
+                console.log(all_question)
+                for (var i=0; i<all_question['all-question'].length; i++) {
+                    var x = document.createElement("INPUT");
+                    x.setAttribute("type", "hidden");
+                    x.setAttribute("name", "name");
+                    x.setAttribute("value", all_question['all-question'][i].question_name);
+                    let inputQuestion = document.querySelector('#all-question');
+                    inputQuestion.appendChild(x)
+
+                    var y = document.createElement("INPUT");
+                    y.setAttribute("type", "hidden");
+                    y.setAttribute("name", "question_id");
+                    y.setAttribute("value", all_question['all-question'][i].question_id);
+                    inputQuestion.appendChild(y)
+                }            
+            }
+            async function getAllQuestion() {
+                var username = $('input[name="username"]').map(function () {
+                    return this.value; 
+                }).get();
+                await getAllQuestionApi();
+            }
+
             // get data from sharepoint
-            function from_sharepoint() {
+            async function from_sharepoint() {
+                await getAllQuestion();
                 var name = $('input[name="name"]').map(function () {
                     return this.value; 
                 }).get();
