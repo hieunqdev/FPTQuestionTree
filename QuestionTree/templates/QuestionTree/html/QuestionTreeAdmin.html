@@ -5,65 +5,68 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-</head>
-<style>
-    html {
+	<style>
+      html {
         height: 100%;
-    }
+      }
 
-    .grass {
+      .grass {
         margin: 0;
         z-index: 999;
         width: 100%;
         position: fixed;
         bottom: 0px;
-    }
+      }
 
-    body {
+      body {
         height: 100%;
-        background: url("http://preview.ibb.co/nHsvLF/page_background.png") no-repeat;
+        background: url("http://preview.ibb.co/nHsvLF/page_background.png")
+          no-repeat;
         /*    background-color: aqua;*/
         background-size: cover;
-    }
+      }
 
-    /* .tree { */
-        /*      background: url("images/tree1.jpg") no-repeat;*/
-    /* } */
+      /* .tree { */
+      /*      background: url("images/tree1.jpg") no-repeat;*/
+      /* } */
 
-    .tree_img {
+      .tree_img {
         width: 100%;
         height: 100%;
         z-index: -1;
-    }
+      }
 
-    .leaf_test {
+      .leaf_test {
         position: absolute;
         top: 12%;
         left: 12%;
         height: 55%;
         width: 60%;
-    }
+      }
 
-    .leaf_1 {
+      .leaf_1 {
         transform-origin: top;
-        background-image: url("https://cdn-icons-png.flaticon.com/512/415/415682.png");
-    }
+        background-image: url("https://img.upanh.tv/2024/05/09/apple.png");
+        width: 65px !important;
+      }
 
-    .leaf_2 {
+      .leaf_2 {
         transform-origin: top;
-        background-image: url("https://cdn-icons-png.flaticon.com/512/415/415682.png");
-    }
+        background-image: url("https://img.upanh.tv/2024/05/09/apple.png");
+        width: 65px !important;
+      }
 
-    .leaf_3 {
+      .leaf_3 {
         transform-origin: top;
-        background-image: url("https://cdn-icons-png.flaticon.com/512/415/415682.png");
-    }
+        background-image: url("https://img.upanh.tv/2024/05/09/apple.png");
+        width: 65px !important;
+      }
 
-    .leaf_group {
+      .leaf_group {
         position: absolute;
         display: inline-block;
-        width: 30%;
-        height: 30%;
+        /* width: 30%;
+        height: 30%; */
         background-repeat: no-repeat;
         background-size: contain;
         animation-name: growUp;
@@ -71,38 +74,38 @@
         -webkit-animation-fill-mode: forwards;
         /* Chrome, Safari, Opera */
         animation-fill-mode: forwards;
-    }
+      }
 
-    @keyframes growUp {
+      @keyframes growUp {
         0% {
-            width: 0%;
-            height: 0%;
+          width: 0%;
+          height: 0%;
         }
         25% {
-            width: 5%;
-            height: 5%;
+          width: 5%;
+          height: 5%;
         }
         50% {
-            width: 12%;
-            height: 12%;
+          width: 12%;
+          height: 12%;
         }
         70% {
-            width: 23%;
-            height: 23%;
+          width: 23%;
+          height: 23%;
         }
         100% {
-            width: 30%;
-            height: 30%;
+          width: 30%;
+          height: 30%;
         }
-    }
+      }
 
-    .leaf_group:hover {
+      .leaf_group:hover {
         cursor: pointer;
         width: 35%;
         height: 35%;
-    }
+      }
 
-    .text_on_leaf {
+      .text_on_leaf {
         z-index: 999;
         transform: rotate(180deg);
         text-overflow: ellipsis;
@@ -111,209 +114,160 @@
         margin: 25% auto auto 30%;
         width: 50%;
         height: 20%;
-    }
+      }
 
-    .name_on_leaf {
+      .name_on_leaf {
         display: none;
-    }
+      }
 
-    .time_tag {
+      .time_tag {
         display: none;
-    }
+      }
 
-    #special_leaf_4 {
+      #special_leaf_4 {
         margin: 20% 20% 30% 20% !important;
-    }
+      }
 
-    .modal-content img {
+      .modal-content img {
         position: absolute;
         width: 100%;
         height: 100%;
         opacity: 0.4;
-    }
+      }
 
-    .user_input {
+      .user_input {
         padding: 30px 10px;
         margin-top: 2%;
-        z-index:1000;
-    }
+        z-index: 1000;
+      }
 
-    /* textarea { */
-        /*    border-radius: 3px;*/
-    /* } */
+      /* textarea { */
+      /*    border-radius: 3px;*/
+      /* } */
 
-    .counter {
+      .counter {
         display: inline;
         float: right;
-    }
+      }
 
-    #wish_content {
+      #wish_content {
         width: 100%;
         height: 75px;
-    }
+      }
 
-    #wisher_name {
+      #wisher_name {
         max-width: 100%;
-    }
+      }
 
-    #make_wish {
+      #make_wish {
         float: right;
-    }
+      }
 
-    #modal_content {
+      #modal_content {
         width: 100%;
         /*    word-break: break-all;*/
         word-wrap: break-word;
-    }
-    table {
+      }
+      table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
-    }
+      }
 
-    td, th {
+      td,
+      th {
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
-    }
+      }
 
-    tr:nth-child(even) {
+      tr:nth-child(even) {
         background-color: #dddddd;
-    }
-</style>
+      }
+    </style>
+</head>
 
 <body>
-    <div class="for_position" style="  display:table;
-    height:100%; width:100%">
-        <div class="container-fluid" style="vertical-align: middle;
-    display: table-cell;">
-            <!--empty div for position arrangement-->
-            <div class="col-lg-2"></div>
-            <!--the tree frame-->
-            <div class="col-xs-12 col-sm-8 col-md-7 col-lg-5 tree">
+    <div class="for_position">
+        <div class="container-fluid">
+			<div class="row">
+				<!--empty div for position arrangement-->
+				<div class="col-xs-12 col-md-2 col-lg-2"></div>
+				<!--the tree frame-->
+				<div class="col-xs-12 col-md-7 col-lg-5 tree">
 
-                <img src="http://image.ibb.co/mwmBua/tree.png" class="tree_img" />
+					<img src="http://image.ibb.co/mwmBua/tree.png" class="tree_img" />
 
-                <!--the leaf group frame-->
-                <!--定位树枝, 不能去掉-->
-                <div class="leaf_test">
+					<!--the leaf group frame-->
+					
+					<div class="leaf_test">
+					</div>
+					<!--end of leaf group frame-->
 
-                    <!--example of leaf templete--
+					<!--modal pack-->
+					<!-- Modal -->
+					<div class="modal fade" id="myModal" role="dialog">
+						<div class="modal-dialog modal-lg">
+							<!-- Modal content-->
+							<div class="modal-content">
 
-                <div id="wish_0" class="leaf_group leaf_1" >
-                    <p class="text_on_leaf wish_on_leaf">  </p>
-                    <p class="text_on_leaf name_on_leaf"></p>
-                    <p class="text_on_leaf time_tag"></p>
-                </div>
+								<div class="modal-header">
+									<h4
+										class="modal-title"
+										id="modal_content"
+										style="font-weight: bold; text-align: center"
+									></h4>
+								</div>
 
-                end of one leaf templete-->
+								<div class="modal-body">
+									<p style="font-weight: bold">Nội dung câu hỏi:</p>
+									<p id="modal_content"></p>
+									<p id="modal_name"></p>
+									<p id="modal_time"></p>
+									<button class="btn btn-primary" onclick="showKetQua()">
+										Kết quả
+									</button>
+									<h3
+										id="question-result"
+										style="font-weight: bold; text-align: center"
+									></h3>
+								</div>
 
+								<div id="all-question">
 
-                </div>
-                <!--end of leaf group frame-->
+								</div>
 
-                <!--modal pack-->
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog modal-sm">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <img src="http://image.ibb.co/gpRY7v/wish_background.jpg" />
-
-                            <div class="modal-header">
-                                <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-                                <button type="button" onclick="showKetQua()" style="position:relative; background: none">Kết Quả</button>
-                                <h4 class="modal-title"></h4>
-                            </div>
-
-                            <div class="modal-body">
-                                <p id="modal_content"></p>
-                                <p id="modal_name"></p>
-                                <p id="modal_time"></p>
-                                
-                                <p id="question-result"></p>
-                            </div>
-
-    
-
-                            <div class="modal-footer">
-                                
-                                <button type="button" onclick="myFunction()" class="btn btn-default" data-dismiss="modal" style="position:relative; background: none">Hoàn thành</button>
-                            </div>
-
-                            <div id="all-question">
-
-                            </div>
-
-                            <div class="modal-footer">
-                                <table class="some-tab">
-                                    <tr>
-                                        <th>Số thứ tự</th>
-                                        <th>Người tham gia</th>
-                                    </tr>
-                                </table>
-                                <!-- <table>
-                                    <tr>
-                                        <th>Stt</th>
-                                        <th>Username</th>
-                                    </tr>
-                                    {% for partner in partners %}
-                                    <tr>
-                                        <td id="Stt">Admin</td>
-                                        <td id="Username">STH STH STH!</td>
-                                    </tr>
-                                    {% endfor %}
-                                </table> -->
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
+								<div class="modal-footer">
+									<h4 style="text-align: center; text-transform: uppercase">
+										🤩 TOP người hái táo nhanh nhất cơ sở 🤩
+									</h4>
+									<table class="table table-striped">
+										<tr>
+											<td>STT</td>
+											<td>Người hái táo</td>
+										</tr>
+									</table>
+									<button class="btn btn-primary" onclick="myFunction()">
+										Đóng
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				
                 <!--end of modal pack-->
 
 
-            </div>
+				</div>
             <!--end of tree frame-->
 
-            
-            
-            <!-- <div class="user_input col-xs-12 col-sm-4 col-md-5 col-lg-4 " style="max-width: 500px">
-                What's your wish:
-                <br>
-                <textarea id="wish_content" type="text" name="wish_content" maxlength="200" rows="7" placeholder="Type your wish here" autofocus></textarea>
-                <p class="counter">200 / 200</p>
-                <br>
-                <br> Your name:
-                <br>
-                <textarea id="wisher_name" type="text" name="wisher_name" maxlength="20" placeholder="Enter your name"></textarea>
-                <br>
-                <br>
-                <button class="btn btn-default" id="make_wish" type="button">Make a wish</button>
-
-
-            </div> -->
-
-            <!--empty div for position arrangement-->
-            
-            <!-- {% for question in questions %}
-                <input type="hidden" id="name" name="name" value="{{question.name}}"/>
-            {% endfor %}
-            {% for id in ids %}
-                <input type="hidden" id="question_id" name="question_id" value="{{id.id}}"/>
-            {% endfor %} -->
-
-            <div class="col-lg-1"></div>
-
-
-        </div>
-
-
+				<div class="col-lg-1"></div>
+			</div>
+		</div>
     </div>
 
-    <div class="grass">
-        <img src="http://image.ibb.co/cjgBua/front_grass.png" style="width:100%;" />
-    </div>
+    <!-- <div class="grass"> -->
+        <!-- <img src="http://image.ibb.co/cjgBua/front_grass.png" style="width:100%;" /> -->
+    <!-- </div> -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -364,8 +318,8 @@
             }
     
             //numbers arr for fake random
-            var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-            shuffle(arr);
+            var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+			shuffle(arr);
 
 
             //if one leaf has been clicked
@@ -525,10 +479,11 @@
             function prepare_data() {
     
                 var Num = Math.floor(Math.random() * 3) + 1;
-                var FakeRandomTop = [24, 51, 89, 25, 53, 36, 80, 36, 50, 51, 41, 55, 72, 16, 80, 78, 34, 85, 71, 40, 96, 17, 87, 71];
-                var FakeRandomLeft = [6, 76, 37, 44, 32, 79, 55, 89, 54, -8, 29, 2, 48, 17, 86, 25, 56, 66, 6, 53, 57, 57, 35, 92];
-                var FakeRandomRotate = [131, 281, 48, 169, 92, 209, 195, 265, 237, 111, 138, 172, 149, 187, 312, 71, 220, 218, 91, 126, 289, 220, 156, 251];
-    
+				var FakeRandomTop = [29, 13, 71, 90, 0, 23, 25, 51, 79, 62];
+				var FakeRandomLeft = [101, 65, 13, 71, 18, 7, 41, -1, 103, 75];
+				var FakeRandomRotate = [
+					265, 220, 91, 218, 220, 131, 138, 149, 251, 260,
+				];
     
                 wish_data = {
                     wish: WishText,
@@ -557,7 +512,7 @@
     
             //creat a new leaf fucntion
             function CreatALeaf(data) {
-                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="' + data.question_id + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + data.rotate + 'deg)"><p hidden class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
+                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="' + data.question_id + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + '0' + 'deg)"><p hidden class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
                 $(".leaf_test").append(txt1);
             }
     
@@ -624,6 +579,10 @@
                     }
                 }, 50)
             }
+			let errorApple = document.querySelector('div[data-rotate="undefined"]');
+			if (errorApple) {
+			  errorApple.style.display = "none";
+			}
         });
     </script>
 </body>
