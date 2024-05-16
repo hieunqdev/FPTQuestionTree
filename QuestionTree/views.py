@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render, redirect
 from django.views import View
 from django.http import HttpResponse, JsonResponse
-from .models import Question, Partner, QuestionQueue
+from .models import Question, Partner, QuestionQueue, Start
 from django.core import serializers
 
 # Create your views here.
@@ -49,27 +49,41 @@ class QuestionAdminView(View):
     
 class QuestionDetailApiView(View):
     def get(self, request, id, username):
-        question = Question.objects.filter(id=id, activate=True).values('id', 'name', 'activate')
-        context = {
-            'status': int,
-            'question': []
-        }
-        if len(question) > 0:
-            context.get('question').append(question[0])     
-        # check_question_queue = QuestionQueue.objects.all()
-        check_question_queue = QuestionQueue.objects.filter(username=username)
-        if len(check_question_queue) == 0:
-            question_queue = QuestionQueue.objects.create(
-                question_id = id,
-                question_name = Question.objects.filter(id=id).values('name'),
-                command = "chua hien thi",
-                url = request.get_full_path(),
-                data = context,
-                username = username
-            )
-            question_queue.save()
-        context['status'] = 200
-        return JsonResponse(context)
+        # if not len(username) > 0:
+        #     context = {
+        #         'status': 100,
+        #         'question': 'Bạn chưa nhập tên người dùng.'
+        #     }
+        #     return JsonResponse(context)
+        start_activate = Start.objects.filter(activate=True)
+        if len(start_activate) > 0:
+            question = Question.objects.filter(id=id, activate=True).values('id', 'name', 'activate')
+            context = {
+                'status': int,
+                'question': []
+            }
+            if len(question) > 0:
+                context.get('question').append(question[0])     
+            # check_question_queue = QuestionQueue.objects.all()
+            check_question_queue = QuestionQueue.objects.filter(username=username)
+            if len(check_question_queue) == 0:
+                question_queue = QuestionQueue.objects.create(
+                    question_id = id,
+                    question_name = Question.objects.filter(id=id).values('name'),
+                    command = "chua hien thi",
+                    url = request.get_full_path(),
+                    data = context,
+                    username = username
+                )
+                question_queue.save()
+            context['status'] = 200
+            return JsonResponse(context)
+        else:
+            context = {
+                'status': 400,
+                'question': 'Chưa đến giờ hái táo. Vui lòng chờ hiệu lệnh từ ban tổ chức.'
+            }
+            return JsonResponse(context)
     
 
 class QuestionDetailAdminApiView(View):
@@ -141,10 +155,27 @@ class QuestionAdminAPIView(View):
         stt = 0
         for partner in question_queue:
             stt += 1
-            if stt <= 11:
+            if stt <= 10:
                 context['partners'].append({
                     'stt': stt,
                     'partner_name': partner['username'],
                 })
                 question_queue.update(command='da hien thi')
+        return JsonResponse(context)
+    
+class ClearQuestionQueue(View):
+    def get(self, request):
+        question_queue = QuestionQueue.objects.all().delete()
+        start_activate = Start.objects.filter(activate=False).update(activate=True)
+        context = {
+            'status': 200
+        }
+        return JsonResponse(context)
+    
+class FalseActivate(View):
+    def get(self, request):
+        start_activate = Start.objects.filter(activate=True).update(activate=False)
+        context = {
+            'status': 200
+        }
         return JsonResponse(context)

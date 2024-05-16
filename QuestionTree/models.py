@@ -33,3 +33,6 @@ class Partner(models.Model):
     activate = models.BooleanField(default=True)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
+
+class Start(models.Model):
+    activate = models.BooleanField(default=False)

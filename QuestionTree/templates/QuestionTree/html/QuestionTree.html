@@ -48,19 +48,19 @@
       .leaf_1 {
         transform-origin: top;
         background-image: url("https://img.upanh.tv/2024/05/09/apple.png");
-        width: 65px !important;
+        width: 45px !important;
       }
 
       .leaf_2 {
         transform-origin: top;
         background-image: url("https://img.upanh.tv/2024/05/09/apple.png");
-        width: 65px !important;
+        width: 45px !important;
       }
 
       .leaf_3 {
         transform-origin: top;
         background-image: url("https://img.upanh.tv/2024/05/09/apple.png");
-        width: 65px !important;
+        width: 45px !important;
       }
 
       .leaf_group {
@@ -169,6 +169,11 @@
         /*    word-break: break-all;*/
         word-wrap: break-word;
       }
+	  
+	  img.grass-tree {
+        position: relative;
+        top: -50px;
+      }
     </style>
 </head>
 <body>
@@ -181,7 +186,14 @@
 				<!--the tree frame-->
 				<div class="col-xs-12 col-sm-8 col-md-7 col-lg-5 tree">
 
-					<img src="http://image.ibb.co/mwmBua/tree.png" class="tree_img" />
+					<div class="apple-tree">
+					  <img src="http://image.ibb.co/mwmBua/tree.png" class="tree_img" />
+					  <img
+						src="http://image.ibb.co/cjgBua/front_grass.png"
+						style="width: 100%"
+						class="grass-tree"
+					  />
+					</div>
 
 					<!--the leaf group frame-->
 					
@@ -189,17 +201,18 @@
 					<!--end of leaf group frame-->
 
                     <!-- modal pack -->
-                    <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal fade" id="myModal" role="dialog"data-keyboard="false"
+              data-backdrop="static">
 						<div class="modal-dialog modal-lg">
 							<!-- Modal content-->
 							<div class="modal-content">
 
 								<div class="modal-header">
-									<!-- <h4
+									<h4
 										class="modal-title"
-										id="modal_content"
+										id="modal_header"
 										style="font-weight: bold; text-align: center"
-									></h4> -->
+									></h4>
 								</div>
 
 								<div class="modal-body">
@@ -232,7 +245,7 @@
 											<td>Người hái táo</td>
 										</tr>
 									</table> -->
-									<button type="button" class="btn btn-default" data-dismiss="modal" style="position:relative; background: none">Đóng</button>
+									<button onclick="reloadPage()"  type="button" class="btn btn-default" data-dismiss="modal" style="position:relative; background: none">Đóng</button>
 								</div>
 							</div>
 						</div>
@@ -246,7 +259,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-3 col-lg-4" id="form-username">
-					<form>
+					<form class="text-center" action="" id="login-form" method="GET">
 					  <div class="form-group">
 						<label for="exampleInputEmail1">Nhập tên account</label>
 						<input
@@ -254,11 +267,11 @@
 						  class="form-control"
 						  id="username"
 						  name="username"
-						  aria-describedby="emailHelp"
 						  placeholder="VD: anhlbt2"
+              onkeyup="checkUserName()"
 						/>
 					  </div>
-					  <button type="submit" id="searchsubmit" onclick="getCreatePartner()" class="btn btn-primary">Gửi đi 🥰</button>
+					  <button type="submit" disabled id="searchsubmit" onclick="getCreatePartner()" class="btn btn-primary">Gửi đi 🥰</button>
 					</form>
 				</div>
 			</div>
@@ -272,40 +285,53 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
+        // kiem tra neu nhap ten moi cho nhat button gui di
+        function checkUserName() {
+          if(document.getElementById("username").value==="") { 
+            
+              document.getElementById('searchsubmit').disabled = true; 
+          } else { 
+              document.getElementById('searchsubmit').disabled = false;
+          }
+        }
         // ghi username, an submit gui di de luu username vao db
         async function getCreatePartner() {
-            var username = $('input[id="username"]').map(function () {
-                    return this.value; 
-                }).get();
-            const response = await fetch("http://127.0.0.1:8000/create-partner/" + username);
-            const result = await response.json();
+          const response = await fetch("http://127.0.0.1:8000/create-partner/" + username);
+          const result = await response.json();
         }
+		
+		
+		
+		function reloadPage() {
+			location.reload();
+		}
+		
 
         
         $(document).ready(function() {
             //shuffle function for fake random
-            function shuffle(array) {
-                var currentIndex = array.length;
-                // var temporaryValue, randomIndex;
+            <!-- function shuffle(array) { -->
+                <!-- var currentIndex = array.length; -->
+                <!-- // var temporaryValue, randomIndex; -->
     
-                // While there remain elements to shuffle...
-                while (0 !== currentIndex) {
+                <!-- // While there remain elements to shuffle... -->
+                <!-- while (0 !== currentIndex) { -->
     
-                    // Pick a remaining element...
-                    var randomIndex = Math.floor(Math.random() * currentIndex);
-                    currentIndex -= 1;
+                    <!-- // Pick a remaining element... -->
+                    <!-- var randomIndex = Math.floor(Math.random() * currentIndex); -->
+                    <!-- currentIndex -= 1; -->
     
-                    // And swap it with the current element.
-                    var temporaryValue = array[currentIndex];
-                    array[currentIndex] = array[randomIndex];
-                    array[randomIndex] = temporaryValue;
-                }
-                return array;
-            }
+                    <!-- // And swap it with the current element. -->
+                    <!-- var temporaryValue = array[currentIndex]; -->
+                    <!-- array[currentIndex] = array[randomIndex]; -->
+                    <!-- array[randomIndex] = temporaryValue; -->
+                <!-- } -->
+                <!-- return array; -->
+            <!-- } -->
     
             //numbers arr for fake random
 			var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];            
-			shuffle(arr);
+			//shuffle(arr);
     
     
             //if one leaf has been clicked
@@ -317,9 +343,13 @@
 
             // an vao tao, call api de luu vao question queue
             async function getQuestion(question_id, username) {
-                const urlParams = new URLSearchParams(window.location.search);
-                const response = await fetch("http://127.0.0.1:8000/questions/" + question_id +"/"+urlParams.get('username'));
-                const question = await response.json();
+              const urlParams = new URLSearchParams(window.location.search);
+              const response = await fetch("http://127.0.0.1:8000/questions/" + question_id +"/"+urlParams.get('username'));
+              const question = await response.json();
+              if (question.status == 400) {
+                alert('Chưa đến giờ hái táo. Vui lòng chờ hiệu lệnh từ ban tổ chức.');
+                window.location.reload(); 
+              }
             }
 
             function lookWishDetails() {
@@ -328,9 +358,9 @@
                 var to_modal_name = $(this).find(".name_on_leaf").text();
                 var to_modal_time = $(this).find(".time_tag").text();
 
-                console.log('to_modal_content');
-                console.log(to_modal_content);
-                console.log(to_modal_name);
+                //console.log('to_modal_content'); 
+                //console.log(to_modal_content); 
+                //console.log(to_modal_name); 
     
                 //push data to modal
                 $("#modal_content").text(to_modal_content);
@@ -354,43 +384,44 @@
             from_sharepoint();
 
             //creat a leaf when click make a wish button
-            $("#make_wish").click(function() {
-                //check if has content, make sure no empty
-                if ($("#wish_content").val() && $("#wisher_name").val()) {
-                    WishText = $("#wish_content").val();
-                    NameText = $("#wisher_name").val();
-                    TimeText = new Date().toLocaleDateString('en-US');
-                    prepare_data();
-                    CreatALeaf(wish_data);
+            <!-- $("#make_wish").click(function() { -->
+                <!-- //check if has content, make sure no empty -->
+                <!-- if ($("#wish_content").val() && $("#wisher_name").val()) { -->
+                    <!-- WishText = $("#wish_content").val(); -->
+                    <!-- NameText = $("#wisher_name").val(); -->
+                    <!-- TimeText = new Date().toLocaleDateString('en-US'); -->
+                    <!-- prepare_data(); -->
+                    <!-- CreatALeaf(wish_data); -->
                     
     
-                    // after creat the leaf, reset the textarea for next wish
-                    $("#wish_content").val('');
-                    $("#wisher_name").val('');
-                    $('.counter').text("200 / 200");
+                    <!-- // after creat the leaf, reset the textarea for next wish -->
+                    <!-- $("#wish_content").val(''); -->
+                    <!-- $("#wisher_name").val(''); -->
+                    <!-- $('.counter').text("200 / 200"); -->
     
     
     
-                    //make a magic sound
-                    new Audio("https://d1490khl9dq1ow.cloudfront.net/sfx/mp3preview/magic-spells-with-harp-and-chimes_GJiMErE_.mp3").play();
+                    <!-- //make a magic sound -->
+                    <!-- new Audio("https://d1490khl9dq1ow.cloudfront.net/sfx/mp3preview/magic-spells-with-harp-and-chimes_GJiMErE_.mp3").play(); -->
     
-                } else {
+                <!-- } else { -->
                     
-                    // if empty, alert the user
-                    alert("Please enter your wishes and name in the typearea.");
-                }
-            });
+                    <!-- // if empty, alert the user -->
+                    <!-- alert("Please enter your wishes and name in the typearea."); -->
+                <!-- } -->
+            <!-- }); -->
 
             // lay tat ca cau hoi, id, cau tra loi cua cau hoi de tao input, sau do hien tao
             async function getAllQuestionApi() {
                 const response = await fetch("http://127.0.0.1:8000/all-question");
                 const all_question = await response.json()
                 for (var i=0; i<all_question['all-question'].length; i++) {
-                    var x = document.createElement("INPUT");
+					let inputQuestion = document.querySelector('#all-question');
+                    
+					var x = document.createElement("INPUT");
                     x.setAttribute("type", "hidden");
                     x.setAttribute("name", "name");
                     x.setAttribute("value", all_question['all-question'][i].question_name);
-                    let inputQuestion = document.querySelector('#all-question');
                     inputQuestion.appendChild(x)
 
                     var y = document.createElement("INPUT");
@@ -410,12 +441,12 @@
             // get data from sharepoint
             async function from_sharepoint() {
                 var form_group = document.getElementById('form-username');
-                console.log(form_group)
+                //console.log(form_group)
                 if (form_group) {
                     const queryString = window.location.search;
                     const urlParams = new URLSearchParams(queryString);
                     const username = urlParams.get('username')
-                    console.log(username);
+                    //console.log(username);
                     if (username) {
                         form_group.style.display="none";
                     }
@@ -442,11 +473,9 @@
             function prepare_data() {
     
                 var Num = Math.floor(Math.random() * 3) + 1;
-				var FakeRandomTop = [29, 13, 71, 90, 0, 23, 25, 51, 79, 62];
-				var FakeRandomLeft = [101, 65, 13, 71, 18, 7, 41, -1, 103, 75];
-				var FakeRandomRotate = [
-					-7, -9, -10, -11, -15, -13, -14, -10, -17, -20,
-				];
+				var FakeRandomTop = [27, 13, 61, 78, 0, 19, 25, 44, 67, 52];
+				var FakeRandomLeft = [97, 65, 13, 71, 18, 8, 41, -1, 99, 75];
+				var FakeRandomRotate = [-7, -9, 10, -11, 15, -13, -14, -10, 17, -21];
     
                 wish_data = {
                     wish: WishText,
@@ -466,7 +495,7 @@
                 }
                 // if the arr has been run out once, reset the arr order and n
                 else if (n === arr.length - 1) {
-                    shuffle(arr);
+                    //shuffle(arr);
                     n = 0;
                 };
     
@@ -475,17 +504,30 @@
     
             //creat a new leaf fucntion
             function CreatALeaf(data) {
-                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="' + data.question_id + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + data.rotate + 'deg)"><p hidden class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
+			//console.log(data) 
+                var txt1 = 
+				`<div 
+				onclick="checkUser()"
+				data-rotate="${data.rotate}" 
+				data-orig="${data.rotate}"
+				id="${data.question_id}" 
+				class="leaf_group leaf_${data.num}"
+				style="top:${data.top}%; left:${data.left}%; transform:rotate(${data.rotate}deg)">
+					<p hidden class="text_on_leaf wish_on_leaf">${data.wish}</p>
+					<p class="text_on_leaf name_on_leaf">${data.name}</p>
+					<p class="text_on_leaf time_tag">${data.time}</p>
+				</div>`;
                 $(".leaf_test").append(txt1);
-            }
+				
+            } 
     
     
-            //character remain in the text area
-            $('#wish_content').keyup(function() {
-                var postlength = $(this).val().length;
-                var charactersLeft = 200 - postlength;
-                $('.counter').text(charactersLeft + " / 200");
-            });
+            <!-- //character remain in the text area -->
+            <!-- $('#wish_content').keyup(function() { -->
+                <!-- var postlength = $(this).val().length; -->
+                <!-- var charactersLeft = 200 - postlength; -->
+                <!-- $('.counter').text(charactersLeft + " / 200"); -->
+            <!-- }); -->
     
     
             // set the interval between two wind

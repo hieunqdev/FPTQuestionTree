@@ -183,6 +183,11 @@
       tr:nth-child(even) {
         background-color: #dddddd;
       }
+	  
+	  .modal-backdrop.in {
+		
+		opacity: 0;
+	}
     </style>
 </head>
 
@@ -192,21 +197,29 @@
 			<div class="row">
 				<!--empty div for position arrangement-->
 				<div class="col-xs-12 col-md-2 col-lg-2"></div>
+        
 				<!--the tree frame-->
 				<div class="col-xs-12 col-md-7 col-lg-5 tree">
 
 					<img src="http://image.ibb.co/mwmBua/tree.png" class="tree_img" />
-
 					<!--the leaf group frame-->
 					
 					<div class="leaf_test">
+            
 					</div>
+          
 					<!--end of leaf group frame-->
 
 					<!--modal pack-->
+
 					<!-- Modal -->
 					<div class="modal fade" id="myModal" role="dialog">
-						<div class="modal-dialog modal-lg">
+						<div class="modal-dialog modal-xs" style="position: fixed;
+																	top: 50%;
+																	right: 0;
+																	transform: translate(0, -50%);
+																	bottom: unset;
+																	left: unset;">
 							<!-- Modal content-->
 							<div class="modal-content">
 
@@ -257,10 +270,35 @@
                 <!--end of modal pack-->
 
 
-				</div>
-            <!--end of tree frame-->
 
-				<div class="col-lg-1"></div>
+				</div>
+
+        <div class="col-xs-12 col-md-3 col-lg-5" style="display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        top: 100px;">
+          <div class="row">
+            <div id="form-username" class="col-md-12" 
+                style="display: flex; justify-content: center; align-items: center;">
+              <button class="btn btn-primary btn-lg" onclick="countDown()" 
+              style="margin-bottom: 10px;
+              padding-left: 45px;
+              padding-right: 45px; margin-bottom: 10px;">Bắt đầu</button>  
+              <span id="countdown"></span>
+              <input type="hidden" id="myInput" placeholder="Enter number..." >
+              <br>
+            </div>
+          </div>
+
+          
+        </div>
+            <!--end of tree frame-->
+					<img
+						src="http://image.ibb.co/cjgBua/front_grass.png"
+						style="width: 100%"
+						class="grass-tree"
+					  />
 			</div>
 		</div>
     </div>
@@ -295,7 +333,23 @@
             location.reload();
         }
 
+        async function startActivate() {
+            const response = await fetch("http://127.0.0.1:8000/superuser/start-activate");
+            const question_result = await response.json();
+        }
+        // button bắt đầu -> clear hết dữ liệu bảng kết quả, đổi field sang true
+        function countDown() {
+            var inputVal =  10;
+            var seconds = inputVal, $seconds = document.querySelector('#countdown');
+            (function countdown() {
+                $seconds.textContent = seconds + ' second' + (seconds == 1 ?  '' :  's')
+                if(seconds --> 0) setTimeout(countdown, 1000)
+            })();
+            startActivate();
+          }
+
         $(document).ready(function() {
+          
 
             //shuffle function for fake random
             function shuffle(array) {
@@ -319,7 +373,7 @@
     
             //numbers arr for fake random
             var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-			shuffle(arr);
+			//shuffle(arr);
 
 
             //if one leaf has been clicked
@@ -384,8 +438,23 @@
             }
 
             // 10s hien lai so cau hoi con lai
-            window.onload = getQuestion;
-            const intervalID = setInterval(getQuestion, 10000);
+            // window.onload = getQuestion;
+            // const intervalID = setInterval(getQuestion, 30000);
+            async function falseActivate() {
+              const response = await fetch("http://127.0.0.1:8000/superuser/false-activate");
+              const question_result = await response.json();
+            }
+            var btn = document.createElement('input');
+            btn.setAttribute('type' , 'button');
+            btn.setAttribute('class', 'btn btn-primary btn-lg');
+            btn.setAttribute('value', 'Bảng xếp hạng');
+            let inputQuestion = document.querySelector('#form-username');
+            inputQuestion.appendChild(btn)
+            // document.body.appendChild(btn);
+            btn.onclick = function(){
+              falseActivate();
+              getQuestion();
+            };
     
             //wish_data is a array of wish content
             var wish_data = {};
