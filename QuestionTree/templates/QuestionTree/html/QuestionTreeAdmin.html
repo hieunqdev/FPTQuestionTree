@@ -16,6 +16,7 @@
         width: 100%;
         position: fixed;
         bottom: 0px;
+		height: 22%;
       }
 
       body {
@@ -188,6 +189,10 @@
 		
 		opacity: 0;
 	}
+	
+	.result {
+		margin-top: 8px;
+	}
     </style>
 </head>
 
@@ -196,7 +201,9 @@
         <div class="container-fluid">
 			<div class="row">
 				<!--empty div for position arrangement-->
-				<div class="col-xs-12 col-md-2 col-lg-2"></div>
+				<div class="col-xs-12 col-md-2 col-lg-2" style="margin-top: 10px;">
+					<img style="width: 70%" src="https://upload.wikimedia.org/wikipedia/commons/2/20/FPT_Polytechnic.png"/>
+				</div>
         
 				<!--the tree frame-->
 				<div class="col-xs-12 col-md-7 col-lg-5 tree">
@@ -215,8 +222,8 @@
 					<!-- Modal -->
 					<div class="modal fade" id="myModal" role="dialog">
 						<div class="modal-dialog modal-xs" style="position: fixed;
-																	top: 50%;
-																	right: 0;
+																	top: 46%;
+																	right: 10px;
 																	transform: translate(0, -50%);
 																	bottom: unset;
 																	left: unset;">
@@ -239,9 +246,12 @@
 									<button class="btn btn-primary" onclick="showKetQua()">
 										Kết quả
 									</button>
+									<button class="btn btn-primary" onclick="myFunction()">
+										Hoàn thành
+									</button>
 									<h3
 										id="question-result"
-										style="font-weight: bold; text-align: center"
+										style="font-weight: bold; text-align: center; margin: 10px 0px;"
 									></h3>
 								</div>
 
@@ -259,46 +269,36 @@
 											<td>Người hái táo</td>
 										</tr>
 									</table>
-									<button class="btn btn-primary" onclick="myFunction()">
-										Đóng
-									</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				
                 <!--end of modal pack-->
-
-
-
 				</div>
-
-        <div class="col-xs-12 col-md-3 col-lg-5" style="display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        top: 100px;">
-          <div class="row">
-            <div id="form-username" class="col-md-12" 
-                style="display: flex; justify-content: center; align-items: center;">
-              <button class="btn btn-primary btn-lg" onclick="countDown()" 
-              style="margin-bottom: 10px;
-              padding-left: 45px;
-              padding-right: 45px; margin-bottom: 10px;">Bắt đầu</button>  
-              <span id="countdown"></span>
-              <input type="hidden" id="myInput" placeholder="Enter number..." >
-              <br>
-            </div>
-          </div>
-
-          
-        </div>
+				<div class="col-xs-12 col-md-3 col-lg-5 text-center" style="margin-top: 20px;">
+					<div id="form-username">
+						<input type="hidden" id="myInput" placeholder="Enter number..." >
+						<button class="btn btn-primary btn-block btn-lg" onclick="countDown()">Bắt đầu</button>  
+					</div>
+					 <span id="countdown" 
+						 style="
+						 display: block;
+						font-size: 50px;
+						color: #161616e3;
+						font-weight: bold;
+						 "></span>
+				</div>
             <!--end of tree frame-->
-					<img
-						src="http://image.ibb.co/cjgBua/front_grass.png"
-						style="width: 100%"
-						class="grass-tree"
-					  />
+				<div class="col-xs-12 col-md-12 col-lg-12">
+					<div class="grass">
+						<img
+							src="http://image.ibb.co/cjgBua/front_grass.png"
+							style="width: 100%"
+							class="grass-tree"
+						/>
+					</div>
+				</div>
 			</div>
 		</div>
     </div>
@@ -342,7 +342,7 @@
             var inputVal =  10;
             var seconds = inputVal, $seconds = document.querySelector('#countdown');
             (function countdown() {
-                $seconds.textContent = seconds + ' second' + (seconds == 1 ?  '' :  's')
+                $seconds.textContent = seconds + ' giây' + (seconds == 1 ?  '' :  '')
                 if(seconds --> 0) setTimeout(countdown, 1000)
             })();
             startActivate();
@@ -446,7 +446,7 @@
             }
             var btn = document.createElement('input');
             btn.setAttribute('type' , 'button');
-            btn.setAttribute('class', 'btn btn-primary btn-lg');
+            btn.setAttribute('class', 'btn btn-primary btn-block btn-lg result');
             btn.setAttribute('value', 'Bảng xếp hạng');
             let inputQuestion = document.querySelector('#form-username');
             inputQuestion.appendChild(btn)

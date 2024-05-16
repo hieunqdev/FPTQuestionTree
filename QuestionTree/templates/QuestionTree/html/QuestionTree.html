@@ -268,7 +268,7 @@
 						  id="username"
 						  name="username"
 						  placeholder="VD: anhlbt2"
-              onkeyup="checkUserName()"
+						  onkeyup="checkUserName()"
 						/>
 					  </div>
 					  <button type="submit" disabled id="searchsubmit" onclick="getCreatePartner()" class="btn btn-primary">Gửi đi 🥰</button>
@@ -285,7 +285,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script>
-        // kiem tra neu nhap ten moi cho nhat button gui di
+	// kiem tra neu nhap ten moi cho nhat button gui di
         function checkUserName() {
           if(document.getElementById("username").value==="") { 
             
@@ -296,8 +296,14 @@
         }
         // ghi username, an submit gui di de luu username vao db
         async function getCreatePartner() {
-          const response = await fetch("http://127.0.0.1:8000/create-partner/" + username);
-          const result = await response.json();
+			let username = document.getElementById('username').value.trim();
+			if (!username) {
+                alert('Nhap ten diiii');
+                return;
+            }
+			const response = await fetch("http://127.0.0.1:8000/create-partner/" + username);
+			const result = await response.json();
+			 document.getElementById('login-form').submit();
         }
 		
 		
