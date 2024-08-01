@@ -13,7 +13,7 @@ class QuestionPartnerView(View):
         username = request.GET.get('username')
 
         if len(questions) == 0 or username is None:
-            return render(request, 'QuestionTree\html\QuestionTree.html')
+            return render(request, 'static\admin\QuestionTree.html')
         
         partner = Partner.objects.create(name=username)
         partner.save()
@@ -23,7 +23,7 @@ class QuestionPartnerView(View):
             'username': username if username else '',
             'results': questions.values('result'),
         }
-        return render(request, 'QuestionTree\html\QuestionTree.html', context)
+        return render(request, 'static\admin\QuestionTree.html', context)
     
 class QuestionAdminView(View):
     def get(self, request):
@@ -45,7 +45,7 @@ class QuestionAdminView(View):
         #             'stt': stt,
         #             'partner_name': partner['username'],
         #         })
-        return render(request, 'QuestionTree\html\QuestionTreeAdmin.html')
+        return render(request, 'static\admin\QuestionTreeAdmin.html')
     
 class QuestionDetailApiView(View):
     def get(self, request, id, username):

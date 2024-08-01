@@ -301,7 +301,7 @@
                 alert('Nhap ten diiii');
                 return;
             }
-			const response = await fetch("http://127.0.0.1:8000/create-partner/" + username);
+			const response = await fetch("http://localhost:8000/create-partner/" + username);
 			const result = await response.json();
 			 document.getElementById('login-form').submit();
         }
@@ -350,7 +350,7 @@
             // an vao tao, call api de luu vao question queue
             async function getQuestion(question_id, username) {
               const urlParams = new URLSearchParams(window.location.search);
-              const response = await fetch("http://127.0.0.1:8000/questions/" + question_id +"/"+urlParams.get('username'));
+              const response = await fetch("http://localhost:8000/questions/" + question_id +"/"+urlParams.get('username'));
               const question = await response.json();
               if (question.status == 400) {
                 alert('Chưa đến giờ hái táo. Vui lòng chờ hiệu lệnh từ ban tổ chức.');
@@ -419,7 +419,7 @@
 
             // lay tat ca cau hoi, id, cau tra loi cua cau hoi de tao input, sau do hien tao
             async function getAllQuestionApi() {
-                const response = await fetch("http://127.0.0.1:8000/all-question");
+                const response = await fetch("http://localhost:8000/all-question");
                 const all_question = await response.json()
                 for (var i=0; i<all_question['all-question'].length; i++) {
 					let inputQuestion = document.querySelector('#all-question');

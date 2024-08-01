@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<style>
+      html {
+        height: 100%;
+      }
+
+      .grass {
+        margin: 0;
+        z-index: 999;
+        width: 100%;
+        position: fixed;
+        bottom: 0px;
+		height: 22%;
+      }
+
+      body {
+        height: 100%;
+        background: url("http://preview.ibb.co/nHsvLF/page_background.png")
+          no-repeat;
+        /*    background-color: aqua;*/
+        background-size: cover;
+      }
+
+      /* .tree { */
+      /*      background: url("images/tree1.jpg") no-repeat;*/
+      /* } */
+
+      .tree_img {
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      .leaf_test {
+        position: absolute;
+        top: 12%;
+        left: 12%;
+        height: 55%;
+        width: 60%;
+      }
+
+      .leaf_1 {
+        transform-origin: top;
+        background-image: url("https://img.upanh.tv/2024/05/09/apple.png");
+        width: 65px !important;
+      }
+
+      .leaf_2 {
+        transform-origin: top;
+        background-image: url("https://img.upanh.tv/2024/05/09/apple.png");
+        width: 65px !important;
+      }
+
+      .leaf_3 {
+        transform-origin: top;
+        background-image: url("https://img.upanh.tv/2024/05/09/apple.png");
+        width: 65px !important;
+      }
+
+      .leaf_group {
+        position: absolute;
+        display: inline-block;
+        /* width: 30%;
+        height: 30%; */
+        background-repeat: no-repeat;
+        background-size: contain;
+        animation-name: growUp;
+        animation-duration: 0.5s;
+        -webkit-animation-fill-mode: forwards;
+        /* Chrome, Safari, Opera */
+        animation-fill-mode: forwards;
+      }
+
+      @keyframes growUp {
+        0% {
+          width: 0%;
+          height: 0%;
+        }
+        25% {
+          width: 5%;
+          height: 5%;
+        }
+        50% {
+          width: 12%;
+          height: 12%;
+        }
+        70% {
+          width: 23%;
+          height: 23%;
+        }
+        100% {
+          width: 30%;
+          height: 30%;
+        }
+      }
+
+      .leaf_group:hover {
+        cursor: pointer;
+        width: 35%;
+        height: 35%;
+      }
+
+      .text_on_leaf {
+        z-index: 999;
+        transform: rotate(180deg);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        /*    margin: 50% 20% 30% 20%;*/
+        margin: 25% auto auto 30%;
+        width: 50%;
+        height: 20%;
+      }
+
+      .name_on_leaf {
+        display: none;
+      }
+
+      .time_tag {
+        display: none;
+      }
+
+      #special_leaf_4 {
+        margin: 20% 20% 30% 20% !important;
+      }
+
+      .modal-content img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0.4;
+      }
+
+      .user_input {
+        padding: 30px 10px;
+        margin-top: 2%;
+        z-index: 1000;
+      }
+
+      /* textarea { */
+      /*    border-radius: 3px;*/
+      /* } */
+
+      .counter {
+        display: inline;
+        float: right;
+      }
+
+      #wish_content {
+        width: 100%;
+        height: 75px;
+      }
+
+      #wisher_name {
+        max-width: 100%;
+      }
+
+      #make_wish {
+        float: right;
+      }
+
+      #modal_content {
+        width: 100%;
+        /*    word-break: break-all;*/
+        word-wrap: break-word;
+      }
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+	  
+	  .modal-backdrop.in {
+		
+		opacity: 0;
+	}
+	
+	.result {
+		margin-top: 8px;
+	}
+    </style>
+</head>
+
+<body>
+    <div class="for_position">
+        <div class="container-fluid">
+			<div class="row">
+				<!--empty div for position arrangement-->
+				<div class="col-xs-12 col-md-2 col-lg-2" style="margin-top: 10px;">
+					<img style="width: 70%" src="https://upload.wikimedia.org/wikipedia/commons/2/20/FPT_Polytechnic.png"/>
+				</div>
+        
+				<!--the tree frame-->
+				<div class="col-xs-12 col-md-7 col-lg-5 tree">
+
+					<img src="http://image.ibb.co/mwmBua/tree.png" class="tree_img" />
+					<!--the leaf group frame-->
+					
+					<div class="leaf_test">
+            
+					</div>
+          
+					<!--end of leaf group frame-->
+
+					<!--modal pack-->
+
+					<!-- Modal -->
+					<div class="modal fade" id="myModal" role="dialog">
+						<div class="modal-dialog modal-xs" style="position: fixed;
+																	top: 46%;
+																	right: 10px;
+																	transform: translate(0, -50%);
+																	bottom: unset;
+																	left: unset;">
+							<!-- Modal content-->
+							<div class="modal-content">
+
+								<div class="modal-header">
+									<h4
+										class="modal-title"
+										id="modal_content"
+										style="font-weight: bold; text-align: center"
+									></h4>
+								</div>
+
+								<div class="modal-body">
+									<p style="font-weight: bold">Nội dung câu hỏi:</p>
+									<p id="modal_content"></p>
+									<p id="modal_name"></p>
+									<p id="modal_time"></p>
+									<button class="btn btn-primary" onclick="showKetQua()">
+										Kết quả
+									</button>
+									<button class="btn btn-primary" onclick="myFunction()">
+										Hoàn thành
+									</button>
+									<h3
+										id="question-result"
+										style="font-weight: bold; text-align: center; margin: 10px 0px;"
+									></h3>
+								</div>
+
+								<div id="all-question">
+
+								</div>
+
+								<div class="modal-footer">
+									<h4 style="text-align: center; text-transform: uppercase">
+										🤩 TOP người hái táo nhanh nhất cơ sở 🤩
+									</h4>
+									<table class="table table-striped">
+										<tr>
+											<td>STT</td>
+											<td>Người hái táo</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+                <!--end of modal pack-->
+				</div>
+				<div class="col-xs-12 col-md-3 col-lg-5 text-center" style="margin-top: 20px;">
+					<div id="form-username">
+						<input type="hidden" id="myInput" placeholder="Enter number..." >
+						<button class="btn btn-primary btn-block btn-lg" onclick="countDown()">Bắt đầu</button>  
+					</div>
+					 <span id="countdown" 
+						 style="
+						 display: block;
+						font-size: 50px;
+						color: #161616e3;
+						font-weight: bold;
+						 "></span>
+				</div>
+            <!--end of tree frame-->
+				<div class="col-xs-12 col-md-12 col-lg-12">
+					<div class="grass">
+						<img
+							src="http://image.ibb.co/cjgBua/front_grass.png"
+							style="width: 100%"
+							class="grass-tree"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <!-- <div class="grass"> -->
+        <!-- <img src="http://image.ibb.co/cjgBua/front_grass.png" style="width:100%;" /> -->
+    <!-- </div> -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script>
+        // lay ket qua dap an
+        async function getKetQua(question_id) {
+            const response = await fetch("http://localhost:8000/result/" + question_id);
+            const question_result = await response.json();
+            document.getElementById('question-result').innerHTML = question_result.result;
+        }
+
+        function showKetQua() {
+            var question_id = document.getElementById('modal_content').innerText.replace(/[^0-9]/g , '');
+            getKetQua(question_id);
+        }
+
+        async function getQuestion(question_id) {
+            const response = await fetch("http://localhost:8000/question/" + question_id);
+            const question = await response.json();
+        }
+
+        function myFunction() {
+            var question_id = document.getElementById('modal_content').innerText.replace(/[^0-9]/g , '');
+            getQuestion(question_id);
+            location.reload();
+        }
+
+        async function startActivate() {
+            const response = await fetch("http://localhost:8000/superuser/start-activate");
+            const question_result = await response.json();
+        }
+        // button bắt đầu -> clear hết dữ liệu bảng kết quả, đổi field sang true
+        function countDown() {
+            var inputVal =  10;
+            var seconds = inputVal, $seconds = document.querySelector('#countdown');
+            (function countdown() {
+                $seconds.textContent = seconds + ' giây' + (seconds == 1 ?  '' :  '')
+                if(seconds --> 0) setTimeout(countdown, 1000)
+            })();
+            startActivate();
+          }
+
+        $(document).ready(function() {
+          
+
+            //shuffle function for fake random
+            function shuffle(array) {
+                var currentIndex = array.length;
+                // var temporaryValue, randomIndex;
+    
+                // While there remain elements to shuffle...
+                while (0 !== currentIndex) {
+    
+                    // Pick a remaining element...
+                    var randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+    
+                    // And swap it with the current element.
+                    var temporaryValue = array[currentIndex];
+                    array[currentIndex] = array[randomIndex];
+                    array[randomIndex] = temporaryValue;
+                }
+                return array;
+            }
+    
+            //numbers arr for fake random
+            var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+			//shuffle(arr);
+
+
+            //if one leaf has been clicked
+            $('body').on("click", ".leaf_group", lookWishDetails);
+    
+            //see the wish detials
+            //note:  get data from SharePoint, modfy here
+            //push data in modal
+            
+            function lookWishDetails() {
+                
+                //get the content of the leaf been clicked
+                var to_modal_content = $(this).find(".wish_on_leaf").text();
+                var to_modal_name = $(this).find(".name_on_leaf").text();
+                var to_modal_time = $(this).find(".time_tag").text();
+    
+                //push data to modal
+                $("#modal_content").text(to_modal_content);
+                $("#modal_name").text(to_modal_name);
+                $("#modal_time").text(to_modal_time);
+                //show the modal
+                $("#myModal").modal();
+            };
+
+            async function getQuestion() {
+                const response = await fetch("http://localhost:8000/question");
+                const question = await response.json();
+                const partner_response = await fetch("http://localhost:8000/superuser/request");
+                const partner = await partner_response.json();
+                var something = document.getElementsByTagName('table');
+                var tableca = something[0];
+                for (var i=0; i<partner.partners.length; i++) {
+                    var tr = document.createElement('tr');
+
+                    var td1 = document.createElement('td');
+                    var td2 = document.createElement('td');
+
+                    var text1 = document.createTextNode(partner.partners[i].stt);
+                    var text2 = document.createTextNode(partner.partners[i].partner_name);
+
+                    td1.appendChild(text1);
+                    td2.appendChild(text2);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+
+                    tableca.appendChild(tr);
+                }
+                let inputQuestion = document.querySelector('.modal-footer');
+                inputQuestion.appendChild(tableca)
+
+                if (question.status == 200) {
+                    //get the content of the leaf been clicked
+                    var to_modal_content = "Quả táo số: " + question.question_id;
+                    var to_modal_name = question.question_name;
+        
+                    //push data to modal
+                    $("#modal_content").text(to_modal_content);
+                    $("#modal_name").text(to_modal_name);
+                    //show the modal
+                    $("#myModal").modal();
+                }
+            }
+
+            // 10s hien lai so cau hoi con lai
+            // window.onload = getQuestion;
+            // const intervalID = setInterval(getQuestion, 30000);
+            async function falseActivate() {
+              const response = await fetch("http://localhost:8000/superuser/false-activate");
+              const question_result = await response.json();
+            }
+            var btn = document.createElement('input');
+            btn.setAttribute('type' , 'button');
+            btn.setAttribute('class', 'btn btn-primary btn-block btn-lg result');
+            btn.setAttribute('value', 'Bảng xếp hạng');
+            let inputQuestion = document.querySelector('#form-username');
+            inputQuestion.appendChild(btn)
+            // document.body.appendChild(btn);
+            btn.onclick = function(){
+              falseActivate();
+              getQuestion();
+            };
+    
+            //wish_data is a array of wish content
+            var wish_data = {};
+            // n is for the fake random position 
+            var n = 0;
+            var WishNo = 0;
+            var WishText;
+            var NameText;
+            var TimeText;
+    
+            //add the data from sharepoint
+            from_sharepoint();
+    
+    
+            //creat a leaf when click make a wish button
+            $("#make_wish").click(function() {
+    
+                //check if has content, make sure no empty
+                if ($("#wish_content").val() && $("#wisher_name").val()) {
+                    WishText = $("#wish_content").val();
+                    NameText = $("#wisher_name").val();
+                    TimeText = new Date().toLocaleDateString('en-US');
+                    prepare_data();
+                    CreatALeaf(wish_data);
+    
+    
+                    // after creat the leaf, reset the textarea for next wish
+                    $("#wish_content").val('');
+                    $("#wisher_name").val('');
+                    $('.counter').text("200 / 200");
+    
+    
+    
+                    //make a magic sound
+                    new Audio("https://d1490khl9dq1ow.cloudfront.net/sfx/mp3preview/magic-spells-with-harp-and-chimes_GJiMErE_.mp3").play();
+    
+                } else {
+                    // if empty, alert the user
+                    alert("Please enter your wishes and name in the typearea.");
+                }
+            });
+
+            // lay tat ca cau hoi, id, cau tra loi cua cau hoi de tao input, sau do hien tao
+            async function getAllQuestionApi() {
+                const response = await fetch("http://localhost:8000/all-question");
+                const all_question = await response.json()
+                console.log(all_question)
+                for (var i=0; i<all_question['all-question'].length; i++) {
+                    var x = document.createElement("INPUT");
+                    x.setAttribute("type", "hidden");
+                    x.setAttribute("name", "name");
+                    x.setAttribute("value", all_question['all-question'][i].question_name);
+                    let inputQuestion = document.querySelector('#all-question');
+                    inputQuestion.appendChild(x)
+
+                    var y = document.createElement("INPUT");
+                    y.setAttribute("type", "hidden");
+                    y.setAttribute("name", "question_id");
+                    y.setAttribute("value", all_question['all-question'][i].question_id);
+                    inputQuestion.appendChild(y)
+                }            
+            }
+            async function getAllQuestion() {
+                var username = $('input[name="username"]').map(function () {
+                    return this.value; 
+                }).get();
+                await getAllQuestionApi();
+            }
+
+            // get data from sharepoint
+            async function from_sharepoint() {
+                await getAllQuestion();
+                var name = $('input[name="name"]').map(function () {
+                    return this.value; 
+                }).get();
+                var question_id = $('input[name="question_id"]').map(function () {
+                    return this.value; 
+                }).get();
+
+                for (let i = 0; i < name.length; i++) {
+                    WishText = question_id[i];
+                    NameText = name[i];
+                    TimeText = '';
+                    prepare_data();
+                    CreatALeaf(wish_data);
+                }
+            }
+    
+    
+            //import data
+            function prepare_data() {
+    
+                var Num = Math.floor(Math.random() * 3) + 1;
+				var FakeRandomTop = [29, 13, 71, 90, 0, 23, 25, 51, 79, 62];
+				var FakeRandomLeft = [101, 65, 13, 71, 18, 7, 41, -1, 103, 75];
+				var FakeRandomRotate = [
+					265, 220, 91, 218, 220, 131, 138, 149, 251, 260,
+				];
+    
+                wish_data = {
+                    wish: WishText,
+                    name: NameText,
+                    time: TimeText,
+                    wish_num: WishNo,
+                    num: Num,
+                    top: FakeRandomTop[arr[n]],
+                    left: FakeRandomLeft[arr[n]],
+                    rotate: FakeRandomRotate[arr[n]]
+                }
+    
+                WishNo += 1;
+                //use the number in arr to fake the random without duplication, so a position only has one leaf, in a loop
+                if (n < arr.length - 1) {
+                    n += 1;
+                }
+                // if the arr has been run out once, reset the arr order and n
+                else if (n === arr.length - 1) {
+                    shuffle(arr);
+                    n = 0;
+                };
+    
+            }
+    
+    
+            //creat a new leaf fucntion
+            function CreatALeaf(data) {
+                var txt1 = '<div data-rotate=' + data.rotate + ' data-orig=' + data.rotate + ' id="' + data.question_id + '" class="leaf_group leaf_' + data.num + '" style="top:' + data.top + '%; left:' + data.left + '%; transform:rotate(' + '0' + 'deg)"><p hidden class="text_on_leaf wish_on_leaf">' + data.wish + '</p><p class="text_on_leaf name_on_leaf">' + data.name + '</p><p class="text_on_leaf time_tag">' + data.time + '</p></div>';
+                $(".leaf_test").append(txt1);
+            }
+    
+    
+            //character remain in the text area
+            $('#wish_content').keyup(function() {
+                var postlength = $(this).val().length;
+                var charactersLeft = 200 - postlength;
+                $('.counter').text(charactersLeft + " / 200");
+            });
+    
+    
+            // set the interval between two wind
+            var BreezeAll = setInterval(BreezeLeft, 4800);
+    
+            //breeze animation - rotate function
+            function BreezeLeft() {
+                var handle_1 = 0;
+                var blow_handle = setInterval(function() {
+                    //change the 25 to any number if wanna change the movement distance
+                    if (handle_1 < 25) {
+                        for (let i = 0; i < WishNo; i++) {
+                            var css_id = '#wish_' + i;
+                            //check the deg of each leaf, the deg of wind is 250deg to 70deg, change the number to change the deg of wind
+                            if ($(css_id).data("orig") > 110 && $(css_id).data("orig") <= 340) {
+                                //change 0.5 to any number to change the step
+                                var RotateValue = $(css_id).data("rotate") + 0.5;
+                            } else {
+                                var RotateValue = $(css_id).data("rotate") - 0.5;
+                            }
+                            var cssValue = "rotate(" + RotateValue + "deg)"
+                            $(css_id).css("transform", cssValue);
+                            $(css_id).data("rotate", RotateValue)
+                        };
+                        handle_1 += 1;
+                    } else {
+                        clearInterval(blow_handle);
+                        FallBack();
+                    }
+                    //change the 60 to any number to change the blow duration 
+                }, 60)
+            }
+    
+    
+            //leaves falls back
+            function FallBack() {
+                var handle_2 = 0;
+                var fall_handle = setInterval(function() {
+                    if (handle_2 < 25) {
+                        for (let i = 0; i < WishNo; i++) {
+                            var css_id = '#wish_' + i;
+                            if ($(css_id).data("orig") > 110 && $(css_id).data("orig") <= 340) {
+                                var RotateValue = $(css_id).data("rotate") - 0.5;
+                            } else {
+                                var RotateValue = $(css_id).data("rotate") + 0.5;
+                            }
+                            var cssValue = "rotate(" + RotateValue + "deg)"
+                            $(css_id).css("transform", cssValue);
+                            $(css_id).data("rotate", RotateValue)
+                        };
+                        handle_2 += 1;
+                    } else {
+                        clearInterval(fall_handle);
+                    }
+                }, 50)
+            }
+			let errorApple = document.querySelector('div[data-rotate="undefined"]');
+			if (errorApple) {
+			  errorApple.style.display = "none";
+			}
+        });
+    </script>
+</body>
+</html>

@@ -312,7 +312,7 @@
     <script>
         // lay ket qua dap an
         async function getKetQua(question_id) {
-            const response = await fetch("http://127.0.0.1:8000/result/" + question_id);
+            const response = await fetch("http://localhost:8000/result/" + question_id);
             const question_result = await response.json();
             document.getElementById('question-result').innerHTML = question_result.result;
         }
@@ -323,7 +323,7 @@
         }
 
         async function getQuestion(question_id) {
-            const response = await fetch("http://127.0.0.1:8000/question/" + question_id);
+            const response = await fetch("http://localhost:8000/question/" + question_id);
             const question = await response.json();
         }
 
@@ -334,7 +334,7 @@
         }
 
         async function startActivate() {
-            const response = await fetch("http://127.0.0.1:8000/superuser/start-activate");
+            const response = await fetch("http://localhost:8000/superuser/start-activate");
             const question_result = await response.json();
         }
         // button bắt đầu -> clear hết dữ liệu bảng kết quả, đổi field sang true
@@ -399,9 +399,9 @@
             };
 
             async function getQuestion() {
-                const response = await fetch("http://127.0.0.1:8000/question");
+                const response = await fetch("http://localhost:8000/question");
                 const question = await response.json();
-                const partner_response = await fetch("http://127.0.0.1:8000/superuser/request");
+                const partner_response = await fetch("http://localhost:8000/superuser/request");
                 const partner = await partner_response.json();
                 var something = document.getElementsByTagName('table');
                 var tableca = something[0];
@@ -441,7 +441,7 @@
             // window.onload = getQuestion;
             // const intervalID = setInterval(getQuestion, 30000);
             async function falseActivate() {
-              const response = await fetch("http://127.0.0.1:8000/superuser/false-activate");
+              const response = await fetch("http://localhost:8000/superuser/false-activate");
               const question_result = await response.json();
             }
             var btn = document.createElement('input');
@@ -499,7 +499,7 @@
 
             // lay tat ca cau hoi, id, cau tra loi cua cau hoi de tao input, sau do hien tao
             async function getAllQuestionApi() {
-                const response = await fetch("http://127.0.0.1:8000/all-question");
+                const response = await fetch("http://localhost:8000/all-question");
                 const all_question = await response.json()
                 console.log(all_question)
                 for (var i=0; i<all_question['all-question'].length; i++) {
