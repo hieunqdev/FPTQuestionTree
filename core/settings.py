@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-rhmqz^x4wo7(^h*ueo0mcs1d*e_+7&_9tsd#y21we(2=l^sru-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '127.0.0.1:5500']
+ALLOWED_HOSTS = ['*', '127.0.0.1:5500', '127.0.0.1:8000']
 
 
 # Application definition
@@ -37,17 +37,30 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'QuestionTree',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8000',
+    'https://e68d-171-225-200-146.ngrok-free.app',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://e68d-171-225-200-146.ngrok-free.app'
 ]
 
 ROOT_URLCONF = 'core.urls'
